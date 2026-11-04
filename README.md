@@ -30,13 +30,7 @@
 
 「この端末に保存」を選んでコピーしたときだけ、PJ名、常駐先企業名、拠点、稼働見込み、出退勤時刻、勤務形態をブラウザの `localStorage` に保存します。キーは `jp.daily-report.settings.v1` です。次回は最後に保存した値が入り、チェックを外すと保存設定を削除します。以前の「出社/在宅併用」という値は読み込み時に「出社/在宅」に変換します。
 
-③の保存は勤務設定とは個別に選べます。作業内容欄のチェックをオンにして「日報をコピー」を押すと、最新の1件を改行も含めて同じブラウザの `localStorage`（`jp.daily-report.work.v1`）に保存します。チェックを外すと保存済みの作業内容を消去します。下記のオリジン共有の注意点は作業内容にも適用されます。④の所感は保存対象外です。コピーした日報全文は端末のクリップボードに入り、Slackに投稿すると投稿先で共有されます。
-
-### GitHub Pagesでのオリジン共有
-
-`localStorage` の保存領域はオリジン（プロトコル・ホスト名・ポート）ごとに分かれます。たとえば `https://example.github.io/repo-A/` と `https://example.github.io/repo-B/` は、パスだけが異なる同一オリジンです。利用者が同じブラウザプロファイルで両方を開くと、もう一方のサイトのJavaScriptからも、その利用者の `jp.daily-report.settings.v1` を読み書きできます。[MDNのlocalStorage解説](https://developer.mozilla.org/ja/docs/Web/API/Window/localStorage)・[GitHub PagesのURL構成](https://docs.github.com/ja/pages/getting-started-with-github-pages/what-is-github-pages)
-
-公開時に保存領域を分けるには、日報メーカー専用のホスト名（例 `reports.example.com`）をこのリポジトリのカスタムドメインとして設定し、他のアプリは別のホスト名で配信します。案件名や取引先企業名を端末に残せない場合や、複数人で同じブラウザプロファイルを使う場合は、「この端末に保存」をオフにして利用してください。
+③の保存は勤務設定とは個別に選べます。作業内容欄のチェックをオンにして「日報をコピー」を押すと、最新の1件を改行も含めて同じブラウザの `localStorage`（`jp.daily-report.work.v1`）に保存します。チェックを外すと保存済みの作業内容を消去します。④の所感は保存対象外です。コピーした日報全文は端末のクリップボードに入り、Slackに投稿すると投稿先で共有されます。
 
 ## 画面幅への対応
 
