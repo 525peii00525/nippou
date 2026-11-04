@@ -49,6 +49,28 @@ textarea {
   resize: vertical;
 }
 
+.work-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.reuse-work {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 5px;
+  min-height: 32px;
+  font-size: 14px;
+  color: #285459;
+  cursor: pointer;
+}
+
+.reuse-work input {
+  margin: 0;
+  accent-color: #006361;
+}
+
 .row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'">
     <title>日報メーカー</title>
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style.css?v=2">
     <script src="./app.js" defer></script>
   </head>
   <body>
@@ -68,14 +68,14 @@
             </select>
           </label>
         </div>
-        <label>
-          作業内容・工程・技術やツール
-          <textarea id="work" rows="3" required></textarea>
-        </label>
-        <label>
-          <input type="checkbox" id="rememberWork">
-          コピー時に③の作業内容をこの端末に保存し、次回も使う
-        </label>
+        <div class="work-heading">
+          <label for="work">作業内容・工程・技術やツール</label>
+          <label class="reuse-work" title="コピー時に作業内容をこの端末に保存します">
+            <input type="checkbox" id="rememberWork">
+            次回も使う
+          </label>
+        </div>
+        <textarea id="work" rows="3" required></textarea>
         <label>
           所感・現場の状況
           <textarea id="note" rows="2" required></textarea>
