@@ -1,10 +1,16 @@
 const field = id => document.getElementById(id);
 const value = id => field(id).value.trim();
 const storageKey = 'jp.daily-report.settings.v1';
+const workKey = 'jp.daily-report.work.v1';
 const savedFields = ['project', 'client', 'site', 'hours', 'start', 'end', 'mode'];
 
 function restoreSettings() {
   try {
+    const work = localStorage.getItem(workKey);
+    if (work !== null) {
+      field('work').value = work;
+      field('rememberWork').checked = true;
+    }
     const saved = JSON.parse(localStorage.getItem(storageKey)) || {};
 
     // 以前の表記で保存された勤務形態も復元する。
@@ -48,14 +54,16 @@ function refresh() {
   field('status').textContent = '';
 }
 
-field('remember').addEventListener('change', () => {
-  if (field('remember').checked) return;
+function clearWhenUnchecked(checkbox, key) {
+  if (checkbox.checked) return;
   try {
-    localStorage.removeItem(storageKey);
+    localStorage.removeItem(key);
   } catch {
     alert('保存設定を消去できませんでした。');
   }
-});
+}
+field('remember').addEventListener('change', event => clearWhenUnchecked(event.target, storageKey));
+field('rememberWork').addEventListener('change', event => clearWhenUnchecked(event.target, workKey));
 
 const report = field('report');
 report.addEventListener('invalid', event => {
@@ -79,6 +87,13 @@ report.addEventListener('submit', async event => {
   }
 
   const preview = field('preview');
+  if (field('rememberWork').checked) {
+    try {
+      localStorage.setItem(workKey, field('work').value);
+    } catch {
+      warning += ' 作業内容を保存できませんでした。';
+    }
+  }
   try {
     await navigator.clipboard.writeText(preview.value);
     field('status').textContent = 'コピーしました。' + warning;

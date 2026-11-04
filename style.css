@@ -125,7 +125,7 @@ fieldset, .row>label {
 
 }
 
-#remember {
+input[type="checkbox"] {
   display: inline;
   width: auto;
   min-height: 0;
