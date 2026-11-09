@@ -3,14 +3,32 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'">
     <title>日報メーカー</title>
     <link rel="stylesheet" href="./style.css?v=2">
-    <script src="./app.js" defer></script>
+    <script src="./report-import.js?v=1" defer></script>
+    <script src="./app.js?v=3" defer></script>
   </head>
   <body>
     <h1>日報メーカー</h1>
     <p>今日の内容を入力して、Slack に貼り付けます。</p>
+    <details id="import-panel">
+      <summary>以前の日報から入力する</summary>
+      <div class="import-body">
+        <label for="import-source">①〜⑤形式の日報を貼り付け</label>
+        <textarea id="import-source" rows="7" maxlength="20000" spellcheck="false" autocomplete="off" aria-describedby="import-help"></textarea>
+        <p id="import-help"><small>読み取りはこのブラウザ内で行います。貼り付けた原文は保存・送信しません。</small></p>
+        <label><input id="import-date" type="checkbox"> 元の日付も取り込む（年がない場合は今年）</label>
+        <button id="import-read" type="button">読み取る</button>
+        <p id="import-message" role="status" aria-live="polite"></p>
+        <div id="import-review" hidden>
+          <p>次の内容に置き換えます。入力済みの欄も上書きされます。</p>
+          <p id="import-date-notice"></p>
+          <dl id="import-values"></dl>
+          <button id="import-apply" type="button">各欄に反映</button>
+        </div>
+      </div>
+    </details>
     <form id="report">
       <details id="settings" open>
         <summary>勤務設定（初回・変更時）</summary>
@@ -90,3 +108,4 @@
     </label>
   </body>
 </html>
+

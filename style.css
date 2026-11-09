@@ -152,3 +152,42 @@ input[type="checkbox"] {
   width: auto;
   min-height: 0;
 }
+
+summary {
+  padding: 12px 0;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#import-panel {
+  margin: 18px 0;
+  padding: 0 16px;
+  background: #fff;
+  border: 1px solid #cad7d7;
+  border-radius: 10px;
+}
+
+.import-body {
+  padding-bottom: 16px;
+}
+
+#import-message {
+  margin: 12px 0 0;
+  white-space: pre-wrap;
+}
+
+#import-values {
+  margin: 12px 0;
+}
+
+#import-values dt {
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+#import-values dd {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+

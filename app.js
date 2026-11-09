@@ -113,3 +113,59 @@ field('day').value = [
   pad(today.getDate()),
 ].join('-');
 refresh();
+
+const importLabels = {
+  day: '日付', start: '出勤', end: '退勤', project: 'PJ名',
+  client: '常駐先企業名', site: '拠点', mode: '勤務形態',
+  work: '作業内容', note: '所感', hours: '稼働見込み時間（h）',
+};
+let pendingImport = null;
+
+function resetImportReview() {
+  pendingImport = null;
+  field('import-review').hidden = true;
+  field('import-values').replaceChildren();
+  field('import-message').textContent = '';
+}
+
+field('import-source').addEventListener('input', resetImportReview);
+field('import-date').addEventListener('change', resetImportReview);
+// 確認後に既存の入力を編集した場合は、反映前にもう一度確認する。
+report.addEventListener('input', resetImportReview);
+
+field('import-read').addEventListener('click', () => {
+  resetImportReview();
+  try {
+    const parsed = parsePreviousReport(field('import-source').value, new Date().getFullYear());
+    if (!field('import-date').checked) delete parsed.day;
+    pendingImport = parsed;
+    for (const [id, content] of Object.entries(parsed)) {
+      const term = document.createElement('dt');
+      const description = document.createElement('dd');
+      term.textContent = importLabels[id];
+      description.textContent = content;
+      field('import-values').append(term, description);
+    }
+    field('import-date-notice').textContent = field('import-date').checked
+      ? '日付も取り込みます。年のない日付は今年として表示しています。'
+      : '日付は現在の日付欄（' + value('day') + '）を維持します。勤務形態の記載がなければ出社になります。';
+    field('import-review').hidden = false;
+    field('import-message').textContent = '読み取りました。日付・勤務形態と、③④が今日の内容か確認してください。';
+  } catch (error) {
+    field('import-message').textContent = error.message;
+  }
+});
+
+field('import-apply').addEventListener('click', () => {
+  if (!pendingImport) return;
+  for (const [id, content] of Object.entries(pendingImport)) {
+    field(id).value = content;
+  }
+  refresh();
+  resetImportReview();
+  field('import-source').value = '';
+  field('settings').open = true;
+  field('import-message').textContent = '各欄に反映しました。今日の内容に直してからコピーしてください。端末への保存はコピー時の保存設定に従います。';
+});
+
+
